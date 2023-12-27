@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from 'dotenv';
+import cors from 'cors';
 
 import categoriesRouter from './routes/categoriesRoute.js'
 import SubcategoriesRouter from './routes/subCategoriesRoute.js'
@@ -12,9 +13,10 @@ import { globalError } from "./middlewares/errorsMiddleware.js";
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 app.use(express.static('uploads'))
 dotenv.config();
-DBConnection()
+DBConnection();
 const server = app.listen(process.env.port, () => { console.log(`app is listen on port ${process.env.port}`); });
 
 // Routes
@@ -30,12 +32,12 @@ app.use(globalError);
 
 // Handle unhandled rejection
 process.on('unhandledRejection', (err) => {
-    console.error(`unhandledRejection ${err.name} | ${err.message}`);
-    server.close(() => {
-        // Shutdown application on error
-        console.error('shutting the application down');
-        process.exit(1);
-    })
+  console.error(`unhandledRejection ${err.name} | ${err.message}`);
+  server.close(() => {
+    // Shutdown application on error
+    console.error('shutting the application down');
+    process.exit(1);
+  })
 })
 
 /*

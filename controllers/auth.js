@@ -14,7 +14,6 @@ import createToken from '../utils/createToken.js'
 export const signUp = expressAsyncHandler(async (req, res, next) => {
     const user = await users.create(req.body);
     const token = createToken(user._id);
-    console.log(user);
     res.status(201).json({ user, token })
 })
 
